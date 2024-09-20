@@ -1,0 +1,76 @@
+﻿@page "/runattributes/details"
+@using Microsoft.EntityFrameworkCore
+@using RiskOfRainTracker.Models
+@inject IDbContextFactory<RiskOfRainTracker.Data.RiskOfRainTrackerContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Details</PageTitle>
+
+<h1>Details</h1>
+
+<div>
+    <h2>RunAttributes</h2>
+    <hr />
+    @if (runattributes is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">RunParticipantIds</dt>
+            <dd class="col-sm-10">@runattributes.RunParticipantIds</dd>
+            <dt class="col-sm-2">RunUDifficultyId</dt>
+            <dd class="col-sm-10">@runattributes.RunUDifficultyId</dd>
+            <dt class="col-sm-2">ModdedRun</dt>
+            <dd class="col-sm-10">@runattributes.ModdedRun</dd>
+            <dt class="col-sm-2">ModProfileName</dt>
+            <dd class="col-sm-10">@runattributes.ModProfileName</dd>
+            <dt class="col-sm-2">DLCRun</dt>
+            <dd class="col-sm-10">@runattributes.DLCRun</dd>
+            <dt class="col-sm-2">DLCIds</dt>
+            <dd class="col-sm-10">@runattributes.DLCIds</dd>
+            <dt class="col-sm-2">UArtifactIds</dt>
+            <dd class="col-sm-10">@runattributes.UArtifactIds</dd>
+            <dt class="col-sm-2">RunLevelEnd</dt>
+            <dd class="col-sm-10">@runattributes.RunLevelEnd</dd>
+            <dt class="col-sm-2">RunDate</dt>
+            <dd class="col-sm-10">@runattributes.RunDate</dd>
+            <dt class="col-sm-2">RunLengthHours</dt>
+            <dd class="col-sm-10">@runattributes.RunLengthHours</dd>
+            <dt class="col-sm-2">RunLengthMinutes</dt>
+            <dd class="col-sm-10">@runattributes.RunLengthMinutes</dd>
+            <dt class="col-sm-2">FoughtMithrix</dt>
+            <dd class="col-sm-10">@runattributes.FoughtMithrix</dd>
+            <dt class="col-sm-2">BeatMitrhrix</dt>
+            <dd class="col-sm-10">@runattributes.BeatMitrhrix</dd>
+            <dt class="col-sm-2">AlternateEnding</dt>
+            <dd class="col-sm-10">@runattributes.AlternateEnding</dd>
+            <dt class="col-sm-2">AlternateEndingId</dt>
+            <dd class="col-sm-10">@runattributes.AlternateEndingId</dd>
+            <dt class="col-sm-2">BeatAlternateEnding</dt>
+            <dd class="col-sm-10">@runattributes.BeatAlternateEnding</dd>
+        </dl>
+        <div>
+            <a href="@($"/runattributes/edit?runid={runattributes.RunId}")">Edit</a> |
+            <a href="@($"/runattributes")">Back to List</a>
+        </div>
+    }
+</div>
+
+@code {
+    private RunAttributes? runattributes;
+
+    [SupplyParameterFromQuery]
+    private int RunId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        runattributes = await context.RunAttributes.FirstOrDefaultAsync(m => m.RunId == RunId);
+
+        if (runattributes is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+}

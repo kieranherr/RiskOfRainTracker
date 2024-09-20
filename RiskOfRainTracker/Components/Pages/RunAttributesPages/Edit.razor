@@ -1,0 +1,171 @@
+﻿@page "/runattributes/edit"
+@using Microsoft.EntityFrameworkCore
+@using RiskOfRainTracker.Models
+@inject IDbContextFactory<RiskOfRainTracker.Data.RiskOfRainTrackerContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Edit</PageTitle>
+
+<h1>Edit</h1>
+
+<h2>RunAttributes</h2>
+<hr />
+@if (RunAttributes is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+            <EditForm method="post" Model="RunAttributes" OnValidSubmit="UpdateRunAttributes" FormName="edit" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <input type="hidden" name="RunAttributes.RunId" value="@RunAttributes.RunId" />
+                <div class="mb-3">
+                    <label for="runparticipantids" class="form-label">RunParticipantIds:</label>
+                    <InputText id="runparticipantids" @bind-Value="RunParticipantIdsString" class="form-control" />
+                    <ValidationMessage For="() => RunAttributes.RunParticipantIds" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="runudifficultyid" class="form-label">RunUDifficultyId:</label>
+                    <InputNumber id="runudifficultyid" @bind-Value="RunAttributes.RunUDifficultyId" class="form-control" />
+                    <ValidationMessage For="() => RunAttributes.RunUDifficultyId" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="moddedrun" class="form-label">ModdedRun:</label>
+                    <InputCheckbox id="moddedrun" @bind-Value="RunAttributes.ModdedRun" class="form-check-input" />
+                    <ValidationMessage For="() => RunAttributes.ModdedRun" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="modprofilename" class="form-label">ModProfileName:</label>
+                    <InputText id="modprofilename" @bind-Value="RunAttributes.ModProfileName" class="form-control" />
+                    <ValidationMessage For="() => RunAttributes.ModProfileName" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="dlcrun" class="form-label">DLCRun:</label>
+                    <InputCheckbox id="dlcrun" @bind-Value="RunAttributes.DLCRun" class="form-check-input" />
+                    <ValidationMessage For="() => RunAttributes.DLCRun" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="dlcids" class="form-label">DLCIds:</label>
+                    <InputText id="dlcids" @bind-Value="DLCIdsString" class="form-control" />
+                    <ValidationMessage For="() => RunAttributes.DLCIds" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="uartifactids" class="form-label">UArtifactIds:</label>
+                    <InputText id="uartifactids" @bind-Value="ArtifactsIdString" class="form-control" />
+                    <ValidationMessage For="() => RunAttributes.UArtifactIds" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="runlevelend" class="form-label">RunLevelEnd:</label>
+                    <InputNumber id="runlevelend" @bind-Value="RunAttributes.RunLevelEnd" class="form-control" />
+                    <ValidationMessage For="() => RunAttributes.RunLevelEnd" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="rundate" class="form-label">RunDate:</label>
+                    <InputDate id="rundate" @bind-Value="RunAttributes.RunDate" class="form-control" />
+                    <ValidationMessage For="() => RunAttributes.RunDate" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="runlengthhours" class="form-label">RunLengthHours:</label>
+                    <InputNumber id="runlengthhours" @bind-Value="RunAttributes.RunLengthHours" class="form-control" />
+                    <ValidationMessage For="() => RunAttributes.RunLengthHours" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="runlengthminutes" class="form-label">RunLengthMinutes:</label>
+                    <InputNumber id="runlengthminutes" @bind-Value="RunAttributes.RunLengthMinutes" class="form-control" />
+                    <ValidationMessage For="() => RunAttributes.RunLengthMinutes" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="foughtmithrix" class="form-label">FoughtMithrix:</label>
+                    <InputCheckbox id="foughtmithrix" @bind-Value="RunAttributes.FoughtMithrix" class="form-check-input" />
+                    <ValidationMessage For="() => RunAttributes.FoughtMithrix" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="beatmitrhrix" class="form-label">BeatMitrhrix:</label>
+                    <InputCheckbox id="beatmitrhrix" @bind-Value="BeatMitrhrixBool" class="form-check-input" />
+                    <ValidationMessage For="() => RunAttributes.BeatMitrhrix" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="alternateending" class="form-label">AlternateEnding:</label>
+                    <InputCheckbox id="alternateending" @bind-Value="AlternateEndingBool" class="form-check-input" />
+                    <ValidationMessage For="() => RunAttributes.AlternateEnding" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="alternateendingid" class="form-label">AlternateEndingId:</label>
+                    <InputNumber id="alternateendingid" @bind-Value="RunAttributes.AlternateEndingId" class="form-control" />
+                    <ValidationMessage For="() => RunAttributes.AlternateEndingId" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="beatalternateending" class="form-label">BeatAlternateEnding:</label>
+                    <InputCheckbox id="beatalternateending" @bind-Value="BeatAlternateEndingBool" class="form-check-input" />
+                    <ValidationMessage For="() => RunAttributes.BeatAlternateEnding" class="text-danger" />
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </EditForm>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="/runattributes">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    private int RunId { get; set; }
+
+    [SupplyParameterFromForm]
+    private RunAttributes? RunAttributes { get; set; }
+    private string RunParticipantIdsString = "";
+    private string DLCIdsString = "";
+    private string ArtifactsIdString = "";
+    private bool BeatMitrhrixBool;
+    private bool AlternateEndingBool;
+    private int AlternateEndingId;
+    private bool BeatAlternateEndingBool;
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        RunAttributes ??= await context.RunAttributes.FirstOrDefaultAsync(m => m.RunId == RunId);
+
+        if (RunAttributes is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more information, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task UpdateRunAttributes()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Attach(RunAttributes!).State = EntityState.Modified;
+
+        try
+        {
+            await context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!RunAttributesExists(RunAttributes!.RunId))
+            {
+                NavigationManager.NavigateTo("notfound");
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        NavigationManager.NavigateTo("/runattributes");
+    }
+
+    private bool RunAttributesExists(int runid)
+    {
+        using var context = DbFactory.CreateDbContext();
+        return context.RunAttributes.Any(e => e.RunId == runid);
+    }
+}

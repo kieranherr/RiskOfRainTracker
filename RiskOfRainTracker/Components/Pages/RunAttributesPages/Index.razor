@@ -1,0 +1,51 @@
+﻿@page "/runattributes"
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using RiskOfRainTracker.Models
+@using RiskOfRainTracker.Data
+@implements IAsyncDisposable
+@inject IDbContextFactory<RiskOfRainTracker.Data.RiskOfRainTrackerContext> DbFactory
+
+<PageTitle>Index</PageTitle>
+
+<h1>Index</h1>
+
+<p>
+    <a href="runattributes/create">Create New</a>
+</p>
+
+<QuickGrid Class="table" Items="context.RunAttributes">
+    <PropertyColumn Property="runattributes => runattributes.RunParticipantIds" />
+    <PropertyColumn Property="runattributes => runattributes.RunUDifficultyId" />
+    <PropertyColumn Property="runattributes => runattributes.ModdedRun" />
+    <PropertyColumn Property="runattributes => runattributes.ModProfileName" />
+    <PropertyColumn Property="runattributes => runattributes.DLCRun" />
+    <PropertyColumn Property="runattributes => runattributes.DLCIds" />
+    <PropertyColumn Property="runattributes => runattributes.UArtifactIds" />
+    <PropertyColumn Property="runattributes => runattributes.RunLevelEnd" />
+    <PropertyColumn Property="runattributes => runattributes.RunDate" />
+    <PropertyColumn Property="runattributes => runattributes.RunLengthHours" />
+    <PropertyColumn Property="runattributes => runattributes.RunLengthMinutes" />
+    <PropertyColumn Property="runattributes => runattributes.FoughtMithrix" />
+    <PropertyColumn Property="runattributes => runattributes.BeatMitrhrix" />
+    <PropertyColumn Property="runattributes => runattributes.AlternateEnding" />
+    <PropertyColumn Property="runattributes => runattributes.AlternateEndingId" />
+    <PropertyColumn Property="runattributes => runattributes.BeatAlternateEnding" />
+
+    <TemplateColumn Context="runattributes">
+        <a href="@($"runattributes/edit?runid={runattributes.RunId}")">Edit</a> |
+        <a href="@($"runattributes/details?runid={runattributes.RunId}")">Details</a> |
+        <a href="@($"runattributes/delete?runid={runattributes.RunId}")">Delete</a>
+    </TemplateColumn>
+</QuickGrid>
+
+@code {
+    private RiskOfRainTrackerContext context = default!;
+
+    protected override void OnInitialized()
+    {
+        context = DbFactory.CreateDbContext();
+    }
+
+    public async ValueTask DisposeAsync() => await context.DisposeAsync();
+}
